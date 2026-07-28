@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Btn, Field, ImgPlaceholder, Pill } from '../components/Layout';
@@ -35,18 +35,29 @@ const ResultCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ propert
 );
 
 export default function SearchPage() {
+  const [destination, setDestination] = useState('');
+  const [arrival, setArrival] = useState('');
+  const [depart, setDepart] = useState('');
+  const [guests, setGuests] = useState('');
+
+  const onSearch = () => {
+    // Dispatch event to open chatbot with a pre-filled 'Demander' question built from form values
+    const initial = `Demander: Rechercher ${destination || 'un logement'} pour ${guests || '1'} voyageur(s) entre ${arrival || '...'} et ${depart || '...'}`;
+    window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { initialUser: initial } }));
+  };
+
   return (
     <div className="fade-in">
       {/* Search bar */}
       <div style={{ borderBottom: '1px solid var(--color-border-light)', background: 'var(--color-surface)', padding: '20px 0' }}>
         <div className="container" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
-            <Field placeholder="Destination" />
-            <Field placeholder="Arrivée" />
-            <Field placeholder="Départ" />
-            <Field placeholder="Voyageurs" />
+            <Field placeholder="Destination" value={destination} onChange={(e) => setDestination(e.target.value)} />
+            <Field placeholder="Arrivée" value={arrival} onChange={(e) => setArrival(e.target.value)} />
+            <Field placeholder="Départ" value={depart} onChange={(e) => setDepart(e.target.value)} />
+            <Field placeholder="Voyageurs" value={guests} onChange={(e) => setGuests(e.target.value)} />
           </div>
-          <Btn label="Rechercher" />
+          <Btn label="Rechercher" onClick={onSearch} />
         </div>
       </div>
 

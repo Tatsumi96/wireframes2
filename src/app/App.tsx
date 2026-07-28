@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Header, Footer, MobileBottomNav } from './components/Layout';
+import Chatbot from './components/Chatbot';
 
 // Public pages
 import HomePage from './pages/HomePage';
@@ -21,6 +22,7 @@ function SiteLayout({ children }: { children: React.ReactNode }) {
       <main style={{ paddingBottom: '70px' }}>{children}</main>
       <Footer />
       <MobileBottomNav />
+      <Chatbot />
     </>
   );
 }

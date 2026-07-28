@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 // ─── Header ──────────────────────────────────────────────────────────────────
@@ -39,10 +39,10 @@ export const Header: React.FC = () => {
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
-          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-dark)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Où allez-vous ?</span>
-            <span style={{ fontSize: '11px', color: 'var(--color-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Partout · Une semaine · Voyageurs</span>
-          </div>
+            <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              {/* Animated mobile suggestions */}
+              <MobileSearchSuggestions />
+            </div>
         </Link>
 
         {/* Desktop nav links */}
@@ -229,12 +229,59 @@ export const Btn: React.FC<{
   </button>
 );
 
-export const Field: React.FC<{ label?: string; placeholder: string; type?: string }> = ({ label, placeholder, type = 'text' }) => (
-  <div className="field-group">
-    {label && <label className="field-label">{label}</label>}
-    <input type={type} placeholder={placeholder} className="field-input" />
-  </div>
-);
+export const Field: React.FC<{
+  label?: string;
+  placeholder?: string;
+  placeholders?: string[];
+  type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ label, placeholder = '', placeholders, type = 'text', value, onChange }) => {
+  const [current, setCurrent] = useState<string>(placeholder);
+
+  useEffect(() => {
+    if (placeholders && placeholders.length > 0) {
+      let i = 0;
+      setCurrent(placeholders[0]);
+      const t = setInterval(() => {
+        i = (i + 1) % placeholders.length;
+        setCurrent(placeholders[i]);
+      }, 2800);
+      return () => clearInterval(t);
+    }
+    setCurrent(placeholder);
+  }, [placeholders, placeholder]);
+
+  return (
+    <div className="field-group">
+      {label && <label className="field-label">{label}</label>}
+      <input type={type} placeholder={current} className="field-input" value={value} onChange={onChange} />
+    </div>
+  );
+};
+
+// Small helper component to show animated placeholders in the mobile header search bar
+const MobileSearchSuggestions: React.FC = () => {
+  const suggestions = ['Où allez-vous ?', 'Demandez quelque chose', 'Rechercher une ville, bien...', 'Trouver une expérience'];
+  const sub = ['Partout · Une semaine · Voyageurs', 'Paris · 2 nuits · 2 personnes', 'Biarritz · 1 semaine · 4 voyageurs'];
+  const [i, setI] = useState(0);
+  const [j, setJ] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setI(prev => (prev + 1) % suggestions.length);
+      setJ(prev => (prev + 1) % sub.length);
+    }, 3000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <>
+      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-dark)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{suggestions[i]}</span>
+      <span style={{ fontSize: '11px', color: 'var(--color-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sub[j]}</span>
+    </>
+  );
+};
 
 export const ImgPlaceholder: React.FC<{ label?: string; style?: React.CSSProperties; src?: string; alt?: string; className?: string }> = ({ label = '[ IMAGE ]', style, src, alt, className }) => {
   const [error, setError] = React.useState(false);

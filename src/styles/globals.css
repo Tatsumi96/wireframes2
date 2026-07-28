@@ -138,6 +138,11 @@ a {
   to   { opacity: 1; transform: scale(1); }
 }
 
+@keyframes pulseChart {
+  from { transform: translateY(0) scaleY(1); opacity: 0.95; }
+  to   { transform: translateY(-4px) scaleY(1.06); opacity: 1; }
+}
+
 .fade-in-up  { animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .fade-in     { animation: fadeIn  0.5s ease both; }
 .scale-in    { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
