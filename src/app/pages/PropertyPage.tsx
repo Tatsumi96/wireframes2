@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Star, MapPin, CheckCircle } from 'lucide-react';
 import { ImgPlaceholder, Pill, SectionLabel, Divider } from '../components/Layout';
 import { PROPERTY_IMAGES, MAP_PREVIEW_IMAGE, CALENDAR_PREVIEW_IMAGE, REVIEWER_AVATARS } from '../data/images';
 
@@ -9,21 +10,21 @@ const reviewsData = [
   {
     name: 'Sophie M.',
     date: 'Juillet 2024',
-    rating: '★★★★★',
+    rating: 5,
     avatar: REVIEWER_AVATARS.sophie,
     comment: "Séjour parfait, la propriété correspond exactement aux photos. L'accueil du propriétaire était chaleureux et professionnel.",
   },
   {
     name: 'Thomas L.',
     date: 'Juin 2024',
-    rating: '★★★★★',
+    rating: 5,
     avatar: REVIEWER_AVATARS.thomas,
     comment: "Le cadre est tout simplement enchanteur. La piscine chauffée et la terrasse couverte ont rendu notre semaine inoubliable.",
   },
   {
     name: 'Claire D.',
     date: 'Mai 2024',
-    rating: '★★★★★',
+    rating: 5,
     avatar: REVIEWER_AVATARS.claire,
     comment: "Maison d'une propreté exemplaire, parfaitement équipée pour 8 personnes. Nous reviendrons sans hésiter !",
   },
@@ -37,8 +38,13 @@ const ReviewCard: React.FC<{ review: typeof reviewsData[0] }> = ({ review }) => 
       </div>
       <div>
         <p style={{ fontSize: '15px', fontWeight: 700, color: 'var(--color-dark)', marginBottom: '2px' }}>{review.name}</p>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-primary)', fontWeight: 600 }}>
-          {review.rating} · <span style={{ color: 'var(--color-muted)', fontWeight: 400 }}>{review.date}</span>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ display: 'flex', gap: '2px' }}>
+            {[...Array(review.rating)].map((_, i) => (
+              <Star key={i} size={14} fill="currentColor" />
+            ))}
+          </span>
+          · <span style={{ color: 'var(--color-muted)', fontWeight: 400 }}>{review.date}</span>
         </p>
       </div>
     </div>
@@ -80,8 +86,11 @@ export default function PropertyPage() {
           {/* Left: details */}
           <div className="fade-in-up">
             <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: '14px' }}>{property.title}</h1>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '32px' }}>
-              {['Luberon', 'Villa', '8 pers.', '4 chambres', '★ 4.9 (48 avis)'].map(t => <Pill key={t} label={t} />)}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '32px' }}>
+              {['Luberon', 'Villa', '8 pers.', '4 chambres'].map(t => <Pill key={t} label={t} />)}
+              <span className="pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <Star size={12} fill="currentColor" /> 4.9 (48 avis)
+              </span>
             </div>
 
             <Divider />
@@ -157,8 +166,12 @@ export default function PropertyPage() {
                 fontSize: '13px',
                 fontWeight: 600,
                 color: 'var(--color-dark)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}>
-                📍 Luberon · Adresse exacte transmise après réservation
+                <MapPin size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+                <span>Luberon · Adresse exacte transmise après réservation</span>
               </div>
             </div>
 
@@ -174,7 +187,8 @@ export default function PropertyPage() {
                 350 € <span style={{ fontSize: '15px', color: 'var(--color-muted)', fontWeight: 400 }}>/ nuit</span>
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '20px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-primary)' }}>★ 4.9</span>
+                <Star size={14} fill="currentColor" style={{ color: 'var(--color-primary)' }} />
+                <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-primary)' }}>4.9</span>
                 <span style={{ fontSize: '13px', color: 'var(--color-muted)' }}>· 48 avis</span>
               </div>
               <Divider />
@@ -207,8 +221,9 @@ export default function PropertyPage() {
                 <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--color-dark)' }}>Total TTC</span>
                 <span style={{ fontSize: '16px', fontWeight: 800, color: 'var(--color-primary)' }}>2 665 €</span>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center', marginTop: '16px' }}>
-                🔒 Aucune somme prélevée avant validation
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center', marginTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                <CheckCircle size={14} style={{ color: 'var(--color-primary)' }} />
+                Aucune somme prélevée avant validation
               </p>
             </div>
           </div>
@@ -221,7 +236,9 @@ export default function PropertyPage() {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', fontWeight: 800, color: 'var(--color-primary)' }}>
             350 € <span style={{ fontSize: '13px', color: 'var(--color-muted)', fontWeight: 400 }}>/ nuit</span>
           </p>
-          <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>★ 4.9 · 14-21 Août</p>
+          <p style={{ fontSize: '13px', color: 'var(--color-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Star size={12} fill="currentColor" style={{ color: 'var(--color-primary)' }} /> 4.9 · 14-21 Août
+          </p>
         </div>
         <Link to="/booking/1" className="btn-primary" style={{ padding: '12px 24px', fontSize: '14px' }}>
           Réserver →

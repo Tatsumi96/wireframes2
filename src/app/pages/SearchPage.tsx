@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Star } from 'lucide-react';
 import { Btn, Field, ImgPlaceholder, Pill } from '../components/Layout';
 import { PROPERTY_IMAGES, MAP_PREVIEW_IMAGE } from '../data/images';
 
 const ResultCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ property }) => (
   <Link to="/property" style={{ display: 'block', textDecoration: 'none' }}>
-    <div className="equal-card" style={{ flexDirection: 'row', minHeight: '160px' }}>
-      <div className="card-img-wrapper" style={{ width: '220px', height: '100%', minHeight: '160px' }}>
+    <div className="equal-card result-card-horizontal">
+      <div className="card-img-wrapper result-card-img">
         <ImgPlaceholder src={property.src} alt={property.title} />
       </div>
       <div className="card-body" style={{ padding: '18px 22px' }}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
             <h3 className="card-title" style={{ fontSize: '16px' }}>{property.title}</h3>
-            <span className="badge-rating" style={{ marginLeft: '8px', flexShrink: 0 }}>★ {property.rating}</span>
+            <span className="badge-rating" style={{ marginLeft: '8px', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <Star size={12} fill="currentColor" /> {property.rating}
+            </span>
           </div>
           <p className="card-subtitle" style={{ marginBottom: '12px' }}>{property.location} · {property.specs}</p>
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -64,7 +67,7 @@ export default function SearchPage() {
 
       {/* Results + map */}
       <div className="container" style={{ paddingTop: '36px', paddingBottom: '80px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr min(480px, 42%)', gap: '36px', alignItems: 'start' }}>
+        <div className="search-results-grid">
           {/* Results list */}
           <div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, color: 'var(--color-muted)', marginBottom: '20px' }}>
@@ -80,7 +83,7 @@ export default function SearchPage() {
           </div>
 
           {/* Sticky map */}
-          <div className="equal-card" style={{ position: 'sticky', top: '88px', height: '640px', overflow: 'hidden' }}>
+          <div className="equal-card search-map-container" style={{ position: 'sticky', top: '88px', height: '640px', overflow: 'hidden' }}>
             <div className="card-img-wrapper" style={{ height: '100%' }}>
               <ImgPlaceholder src={MAP_PREVIEW_IMAGE} alt="Carte interactive des propriétés" />
             </div>

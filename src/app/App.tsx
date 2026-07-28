@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Header, Footer } from './components/Layout';
+import { Header, Footer, MobileBottomNav } from './components/Layout';
 
 // Public pages
 import HomePage from './pages/HomePage';
@@ -18,14 +18,20 @@ function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main style={{ paddingBottom: '70px' }}>{children}</main>
       <Footer />
+      <MobileBottomNav />
     </>
   );
 }
 
 function PortalLayout({ children }: { children: React.ReactNode }) {
-  return <main>{children}</main>;
+  return (
+    <>
+      <main style={{ paddingBottom: '70px' }}>{children}</main>
+      <MobileBottomNav />
+    </>
+  );
 }
 
 // ─── App ─────────────────────────────────────────────────────────────────────

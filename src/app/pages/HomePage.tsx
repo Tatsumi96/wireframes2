@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Star } from 'lucide-react';
 import { Btn, ImgPlaceholder, Pill, SectionLabel, Divider } from '../components/Layout';
 import { PROPERTY_IMAGES, HERO_HOME_IMAGE, HOST_OWNER_IMAGE } from '../data/images';
 
@@ -23,7 +24,7 @@ const PropertyCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ prope
           alignItems: 'center',
           gap: '4px',
         }}>
-          ★ {property.rating}
+          <Star size={12} fill="currentColor" /> {property.rating}
         </div>
       </div>
       <div className="card-body">
@@ -106,7 +107,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured properties */}
-      <section className="container" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+      <section className="container featured-properties-section" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '36px' }}>
           <div>
             <SectionLabel text="Sélection du moment" />

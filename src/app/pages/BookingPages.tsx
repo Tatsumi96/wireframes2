@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Star, ShieldCheck } from 'lucide-react';
 import { Field, ImgPlaceholder, SectionLabel, Divider, StepBar } from '../components/Layout';
 import { PROPERTY_IMAGES, CALENDAR_PREVIEW_IMAGE, STRIPE_BADGE_IMAGE } from '../data/images';
 
@@ -13,7 +14,7 @@ const SummaryWidget: React.FC = () => (
       </div>
       <div style={{ padding: '16px' }}>
         <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--color-dark)', marginBottom: '4px' }}>{property.title}</p>
-        <span className="badge-rating" style={{ fontSize: '12px' }}>★ {property.rating} · Luberon</span>
+        <span className="badge-rating" style={{ fontSize: '12px' }}><Star size={11} fill="currentColor" /> {property.rating} · Luberon</span>
       </div>
     </div>
     <div className="equal-card" style={{ padding: '18px' }}>
@@ -30,7 +31,7 @@ export function BookingStep1() {
   return (
     <div className="container" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={0} />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '40px', alignItems: 'start' }}>
+      <div className="booking-step-grid">
         <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
           <SectionLabel text="Sélection des dates" />
           <div style={{ height: '280px', overflow: 'hidden', borderRadius: 'var(--radius-card)', border: '1.5px solid var(--color-border-light)', marginBottom: '28px' }}>
@@ -68,7 +69,7 @@ export function BookingStep2() {
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={1} />
       <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
         <SectionLabel text="Récapitulatif de la réservation" />
-        <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '28px', marginBottom: '28px' }}>
+        <div className="booking-recap-grid" style={{ marginBottom: '28px' }}>
           <div style={{ borderRadius: 'var(--radius-card)', overflow: 'hidden', height: '150px' }}>
             <ImgPlaceholder src={property.src} alt={property.title} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
           </div>
@@ -116,7 +117,7 @@ export function BookingStep3() {
   return (
     <div className="container" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={2} />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '40px', alignItems: 'start' }}>
+      <div className="booking-step-grid">
         <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
           <SectionLabel text="Paiement sécurisé" />
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '24px' }}>
@@ -154,8 +155,9 @@ export function BookingStep3() {
           <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '16px' }}>
             Payer 2 665 € — Confirmer la réservation
           </button>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center', marginTop: '16px' }}>
-            🔒 Paiement 100% sécurisé · Confirmation immédiate par email
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center', marginTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+            <ShieldCheck size={14} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+            Paiement 100% sécurisé · Confirmation immédiate par email
           </p>
         </div>
 

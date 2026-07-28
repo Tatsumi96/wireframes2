@@ -23,14 +23,26 @@ export const Header: React.FC = () => {
             alt="Lumière Logo"
             className="nav-logo-img"
             style={{
-              height: '64px',
-              maxHeight: '64px',
+              height: '52px',
+              maxHeight: '52px',
               width: 'auto',
               objectFit: 'contain',
               filter: 'drop-shadow(0 4px 12px rgba(26, 54, 93, 0.22))',
               transition: 'transform 0.2s ease',
             }}
           />
+        </Link>
+
+        {/* Mobile Header Top Search Bar (Airbnb App style) */}
+        <Link to="/search" className="header-mobile-search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-primary)', flexShrink: 0 }}>
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-dark)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Où allez-vous ?</span>
+            <span style={{ fontSize: '11px', color: 'var(--color-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Partout · Une semaine · Voyageurs</span>
+          </div>
         </Link>
 
         {/* Desktop nav links */}
@@ -260,3 +272,80 @@ export const Card: React.FC<{ children: React.ReactNode; style?: React.CSSProper
     {children}
   </div>
 );
+
+// ─── Mobile Bottom Navigation (Airbnb App style) ──────────────────────────────
+export const MobileBottomNav: React.FC = () => {
+  const location = useLocation();
+
+  const navItems = [
+    {
+      to: '/',
+      label: 'Explorer',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      ),
+    },
+    {
+      to: '/search',
+      label: 'Recherche',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+          <polyline points="2 17 12 22 22 17" />
+          <polyline points="2 12 12 17 22 12" />
+        </svg>
+      ),
+    },
+    {
+      to: '/about',
+      label: 'À propos',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      ),
+    },
+    {
+      to: '/contact',
+      label: 'Contact',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      ),
+    },
+    {
+      to: '/client',
+      label: 'Profil',
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <nav className="mobile-app-bottom-nav">
+      {navItems.map((item) => {
+        const isActive = location.pathname === item.to || (item.to === '/client' && location.pathname.startsWith('/client'));
+        return (
+          <Link
+            key={item.to}
+            to={item.to}
+            className={`mobile-nav-item${isActive ? ' active' : ''}`}
+          >
+            <span className="mobile-nav-icon">{item.icon}</span>
+            <span className="mobile-nav-label">{item.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+};

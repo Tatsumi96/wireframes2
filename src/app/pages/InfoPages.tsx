@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapPin, Mail, Phone, Clock } from 'lucide-react';
 import { Field, ImgPlaceholder, SectionLabel, Divider } from '../components/Layout';
 import { ABOUT_HERO_IMAGE, CONTACT_MAP_IMAGE, TEAM_MEMBERS } from '../data/images';
 
@@ -9,7 +10,7 @@ export function ContactPage() {
     <div className="container fade-in" style={{ paddingTop: '64px', paddingBottom: '80px' }}>
       <SectionLabel text="Contact" />
       <h1 style={{ marginBottom: '48px', maxWidth: '520px' }}>Une question ? Nous sommes là.</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }}>
+      <div className="info-grid-2col">
         {/* Form */}
         <div
           className="fade-in-up"
@@ -50,14 +51,19 @@ export function ContactPage() {
             borderRadius: 'var(--radius-card)',
             padding: '24px',
             marginBottom: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
           }}>
             {[
-              '📍 12 rue des Oliviers, 84000 Avignon',
-              '✉️ contact@lumiere-exception.fr',
-              '📞 +33 4 90 00 12 34',
-              '🕒 Du Lundi au Vendredi, 9h – 18h',
-            ].map(info => (
-              <p key={info} style={{ fontSize: '14px', color: 'var(--color-body)', marginBottom: '12px', lineHeight: 1.6 }}>{info}</p>
+              { icon: <MapPin size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />, text: '12 rue des Oliviers, 84000 Avignon' },
+              { icon: <Mail size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />, text: 'contact@lumiere-exception.fr' },
+              { icon: <Phone size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />, text: '+33 4 90 00 12 34' },
+              { icon: <Clock size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />, text: 'Du Lundi au Vendredi, 9h – 18h' },
+            ].map(({ icon, text }) => (
+              <p key={text} style={{ fontSize: '14px', color: 'var(--color-body)', lineHeight: 1.6, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {icon} {text}
+              </p>
             ))}
           </div>
           <div className="equal-card" style={{ height: '260px' }}>

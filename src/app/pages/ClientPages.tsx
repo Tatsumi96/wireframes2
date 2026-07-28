@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Key, Star } from 'lucide-react';
 import { PortalSidebar, ImgPlaceholder, SectionLabel, Divider, Field } from '../components/Layout';
 import { PROPERTY_IMAGES, REVIEWER_AVATARS } from '../data/images';
 
@@ -39,9 +40,9 @@ const BookingRow: React.FC<{ property: typeof PROPERTY_IMAGES[0]; refCode: strin
 
 export function ClientDashboard() {
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }} className="fade-in">
+    <div className="portal-layout-container fade-in">
       <PortalSidebar title="Portail Client" links={clientLinks} />
-      <div style={{ flex: 1, background: 'var(--color-beige)', padding: '40px' }}>
+      <div className="portal-content-area">
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
           <div style={{ width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', border: '1px solid var(--color-border)', flexShrink: 0 }}>
             <ImgPlaceholder src={REVIEWER_AVATARS.jean} alt="Avatar Jean Dupont" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -51,7 +52,7 @@ export function ClientDashboard() {
             <p style={{ fontSize: '13px', color: 'var(--color-taupe)' }}>Membre Privilège depuis 2022</p>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px', alignItems: 'stretch' }}>
+        <div className="client-stats-grid">
           <StatCard label="Réservations" value="8" />
           <StatCard label="Nuits réservées" value="47" />
           <StatCard label="Dépenses totales" value="6 240 €" />
@@ -75,29 +76,29 @@ export function ClientDashboard() {
 export function ClientBooking() {
   const property = PROPERTY_IMAGES[0];
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }} className="fade-in">
+    <div className="portal-layout-container fade-in">
       <PortalSidebar title="Portail Client" links={clientLinks} />
-      <div style={{ flex: 1, background: 'var(--color-beige)', padding: '40px' }}>
+      <div className="portal-content-area">
         <Link to="/client" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', textDecoration: 'underline', display: 'block', marginBottom: '24px' }}>← Mes réservations</Link>
         <h2 style={{ marginBottom: '28px' }}>Réservation #AB1234</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '24px', alignItems: 'start' }}>
+        <div className="client-booking-grid">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ border: '1px solid var(--color-border)', padding: '24px', background: 'var(--color-ivory)' }}>
               <SectionLabel text="Propriété" />
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{ width: '140px', height: '90px', flexShrink: 0, overflow: 'hidden', border: '1px solid var(--color-border)' }}>
                   <ImgPlaceholder src={property.src} alt={property.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div>
                   <p style={{ fontWeight: 600, color: 'var(--color-anthracite)', marginBottom: '6px' }}>{property.title}</p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', marginBottom: '8px' }}>Luberon · Villa · ★ {property.rating}</p>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>Luberon · Villa · <Star size={12} fill="currentColor" style={{ color: 'var(--color-primary)' }} /> {property.rating}</p>
                   <Link to="/property" style={{ fontSize: '13px', color: 'var(--color-terracotta)', textDecoration: 'underline' }}>Voir l'annonce →</Link>
                 </div>
               </div>
             </div>
             <div style={{ border: '1px solid var(--color-border)', padding: '24px', background: 'var(--color-ivory)' }}>
               <SectionLabel text="Détails du séjour" />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div className="client-details-grid">
                 {['Arrivée : 14/08/2024', 'Départ : 21/08/2024', 'Voyageurs : 4 adultes', 'Durée : 7 nuits'].map(d => (
                   <div key={d} style={{ padding: '10px 14px', background: 'var(--color-beige)', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)' }}>{d}</div>
                 ))}
@@ -105,8 +106,9 @@ export function ClientBooking() {
             </div>
             <div style={{ border: '1px solid var(--color-border)', padding: '24px', background: 'var(--color-ivory)' }}>
               <SectionLabel text="Instructions d'accès" />
-              <div style={{ background: 'var(--color-beige)', border: '1px solid var(--color-border)', padding: '16px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-taupe)', lineHeight: '1.6' }}>
-                🔑 Code digicode : 4821 · Boîte à clés sécurisée située à gauche du porche d'entrée principal.
+              <div style={{ background: 'var(--color-beige)', border: '1px solid var(--color-border)', padding: '16px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-taupe)', lineHeight: '1.6', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Key size={16} style={{ flexShrink: 0, color: 'var(--color-primary)' }} />
+                <span>Code digicode : 4821 · Boîte à clés sécurisée située à gauche du porche d'entrée principal.</span>
               </div>
             </div>
           </div>
@@ -127,30 +129,32 @@ export function ClientBooking() {
 
 export function ClientPayments() {
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }} className="fade-in">
+    <div className="portal-layout-container fade-in">
       <PortalSidebar title="Portail Client" links={clientLinks} />
-      <div style={{ flex: 1, background: 'var(--color-beige)', padding: '40px' }}>
+      <div className="portal-content-area">
         <h2 style={{ marginBottom: '28px' }}>Historique des paiements</h2>
-        <div style={{ border: '1px solid var(--color-border)', overflow: 'hidden', background: 'var(--color-ivory)' }}>
-          {/* Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 100px', gap: '16px', padding: '12px 20px', borderBottom: '1px solid var(--color-border)', background: 'var(--color-beige)' }}>
-            {['Propriété', 'Date', 'Montant', 'Statut'].map(h => (
-              <p key={h} style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 500, color: 'var(--color-taupe)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{h}</p>
+        <div style={{ border: '1px solid var(--color-border)', overflowX: 'auto', background: 'var(--color-ivory)' }}>
+          <div style={{ minWidth: '500px' }}>
+            {/* Header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 100px', gap: '16px', padding: '12px 20px', borderBottom: '1px solid var(--color-border)', background: 'var(--color-beige)' }}>
+              {['Propriété', 'Date', 'Montant', 'Statut'].map(h => (
+                <p key={h} style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 500, color: 'var(--color-taupe)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{h}</p>
+              ))}
+            </div>
+            {PROPERTY_IMAGES.slice(0, 5).map((prop, i) => (
+              <div key={prop.id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 100px', gap: '16px', padding: '14px 20px', alignItems: 'center', borderBottom: '1px solid var(--color-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '40px', height: '30px', flexShrink: 0, overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+                    <ImgPlaceholder src={prop.src} alt={prop.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <p style={{ fontSize: '14px', color: 'var(--color-anthracite)', fontWeight: 500 }}>{prop.title}</p>
+                </div>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-taupe)' }}>0{2 + i}/07/2024</p>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-terracotta)', fontWeight: 600 }}>{prop.price}</p>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-taupe)' }}>Payé ✓</p>
+              </div>
             ))}
           </div>
-          {PROPERTY_IMAGES.slice(0, 5).map((prop, i) => (
-            <div key={prop.id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 100px', gap: '16px', padding: '14px 20px', alignItems: 'center', borderBottom: '1px solid var(--color-border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '40px', height: '30px', flexShrink: 0, overflow: 'hidden', border: '1px solid var(--color-border)' }}>
-                  <ImgPlaceholder src={prop.src} alt={prop.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <p style={{ fontSize: '14px', color: 'var(--color-anthracite)', fontWeight: 500 }}>{prop.title}</p>
-              </div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-taupe)' }}>0{2 + i}/07/2024</p>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--color-terracotta)', fontWeight: 600 }}>{prop.price}</p>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-taupe)' }}>Payé ✓</p>
-            </div>
-          ))}
         </div>
       </div>
     </div>
@@ -159,14 +163,14 @@ export function ClientPayments() {
 
 export function ClientSettings() {
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }} className="fade-in">
+    <div className="portal-layout-container fade-in">
       <PortalSidebar title="Portail Client" links={clientLinks} />
-      <div style={{ flex: 1, background: 'var(--color-beige)', padding: '40px' }}>
+      <div className="portal-content-area">
         <h2 style={{ marginBottom: '28px' }}>Paramètres du compte</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div className="client-settings-grid">
           <div style={{ border: '1px solid var(--color-border)', padding: '28px', background: 'var(--color-ivory)' }}>
             <SectionLabel text="Photo de profil" />
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px', flexWrap: 'wrap' }}>
               <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', border: '1px solid var(--color-border)', flexShrink: 0 }}>
                 <ImgPlaceholder src={REVIEWER_AVATARS.jean} alt="Jean Dupont" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
