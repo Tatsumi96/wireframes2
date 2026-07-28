@@ -112,7 +112,7 @@ export default function HomePage() {
             <SectionLabel text="Sélection du moment" />
             <h2>Propriétés en vedette</h2>
           </div>
-          <Link to="/search" className="btn-ghost">Voir tout →</Link>
+          <Link to="/search" className="px-5 py-3 text-accent text-sm font-semibold rounded-full border border-accent/20 shadow-black/15 hover:shadow-md transition-shadow">Voir tout →</Link>
         </div>
         <div className="card-grid">
           {PROPERTY_IMAGES.map((prop, i) => (

@@ -18,8 +18,35 @@
   /* Typography */
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body:    'Outfit', system-ui, sans-serif;
+}
 
-  /* Radii — Generously Rounded */
+@theme inline {
+  /* Map our custom tokens to Tailwind utility classes */
+  --color-primary:        #1A365D;
+  --color-primary-hover:  #2A4365;
+  --color-accent:         #1A365D;
+  --color-dark:           #1A202C;
+  --color-body:           #4A5568;
+  --color-muted:          #A0AEC0;
+  --color-surface:        #FFFFFF;
+  --color-surface-2:      #F5F5F5;
+  --color-bg:             #FFFFFF;
+  --color-border:         #E2E8F0;
+  --color-border-light:   #EDF2F7;
+
+  /* Fonts */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Outfit', system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-xs:  0 1px 3px rgba(26, 23, 64, 0.06);
+  --shadow-sm:  0 4px 12px rgba(26, 23, 64, 0.07);
+  --shadow-md:  0 8px 24px rgba(26, 23, 64, 0.10);
+  --shadow-lg:  0 20px 48px rgba(26, 23, 64, 0.13);
+}
+
+/* ─── Radii & Shadows ───────────────────────────────────────────────────── */
+:root {
   --radius-card:   24px;
   --radius-btn:    9999px;
   --radius-pill:   9999px;
@@ -216,6 +243,7 @@ a {
   border-top: 1px solid var(--color-border-light);
 }
 
+
 /* ─── Buttons ────────────────────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
@@ -232,6 +260,7 @@ a {
   border: none;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   transition: background 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -260,6 +289,7 @@ a {
   border: 1.5px solid var(--color-primary);
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   transition: background 0.2s ease, transform 0.25s ease;
 }
 
@@ -281,12 +311,14 @@ a {
   border: none;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   transition: color 0.2s;
 }
 
 .btn-ghost:hover {
   color: var(--color-primary-hover);
 }
+
 
 /* ─── Pills / Badges ─────────────────────────────────────────────────────── */
 .pill {
@@ -754,6 +786,7 @@ a {
   font-weight: 600;
   color: var(--color-primary);
 }
+
 
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 990px) {

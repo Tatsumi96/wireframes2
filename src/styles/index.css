@@ -1,2 +1,3 @@
-@import './tailwind.css';
-@import './globals.css';
+@import "tailwindcss/theme" layer(base);
+@import "tailwindcss/utilities";
+@import "./globals.css";
