@@ -610,6 +610,79 @@ a {
   color: var(--color-body);
 }
 
+/* ─── Gallery ────────────────────────────────────────────────────────────── */
+.inspiration-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 240px);
+  gap: 16px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.08);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 20, 40, 0.6) 0%, transparent 40%);
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-caption {
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.item-1 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.item-2 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.item-3 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.item-4 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.item-5 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 .footer-wrapper {
   border-top: 1px solid var(--color-border-light);
@@ -674,6 +747,16 @@ a {
     width: 100%;
   }
 
+  .inspiration-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 200px);
+  }
+
+  .item-1 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
   .property-main-layout {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -699,6 +782,16 @@ a {
 
 @media (max-width: 640px) {
   h1 { font-size: 32px; }
+
+  .inspiration-gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 220px);
+  }
+
+  .item-1, .item-2, .item-3, .item-4, .item-5 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
 
   .property-gallery-grid {
     display: flex;

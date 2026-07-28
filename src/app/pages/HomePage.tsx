@@ -80,11 +80,6 @@ export default function HomePage() {
         <div className="container" style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '68px' }}>
           <div className="fade-in-up">
             {/* Label */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', borderRadius: '999px', padding: '6px 16px', marginBottom: '20px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff' }} />
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: '#fff', letterSpacing: '0.04em' }}>Sélection Premium 2025</span>
-            </div>
-
             <h1 style={{ color: '#fff', marginBottom: '12px', maxWidth: '580px' }}>
               Des séjours d'exception
             </h1>
@@ -123,6 +118,22 @@ export default function HomePage() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
           {['Villas', 'Appartements', 'Maisons', 'Chalets', 'Bord de mer', 'Montagne', 'Campagne', 'Lofts'].map((c, i) => (
             <Pill key={c} label={c} accent={i === 0} />
+          ))}
+        </div>
+      </section>
+
+      {/* Inspiration Gallery */}
+      <section className="container" style={{ paddingBottom: '80px' }}>
+        <SectionLabel text="Inspirations" />
+        <h2 style={{ marginBottom: '40px' }}>Explorez nos plus beaux intérieurs</h2>
+        <div className="inspiration-gallery">
+          {PROPERTY_IMAGES.slice(0, 5).map((prop, i) => (
+            <div key={prop.id} className={`gallery-item item-${i + 1} fade-in-up delay-${i + 1}`}>
+              <ImgPlaceholder src={prop.gallery ? prop.gallery[1] || prop.src : prop.src} alt={`Inspiration ${i + 1}`} />
+              <div className="gallery-overlay">
+                <span className="gallery-caption">{prop.location.split(' · ')[0]}</span>
+              </div>
+            </div>
           ))}
         </div>
       </section>
