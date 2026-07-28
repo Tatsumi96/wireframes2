@@ -44,23 +44,37 @@ const PropertyCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ prope
 
 // ─── Hero Search Bar ──────────────────────────────────────────────────────────
 const SearchBar: React.FC = () => (
-  <div className="hero-search-bar">
-    {[['Destination', 'Ville, région…'], ['Arrivée', 'jj / mm / aaaa'], ['Départ', 'jj / mm / aaaa']].map(([label, ph]) => (
-      <div key={label} className="search-field-item">
-        <p className="field-label" style={{ marginBottom: '4px' }}>{label}</p>
-        <input
-          placeholder={ph}
-          className="field-input"
-          style={{ background: 'none', border: 'none', padding: '0', borderRadius: '0', fontSize: '15px', boxShadow: 'none' }}
-        />
+  <>
+    {/* Desktop Search Bar */}
+    <div className="hero-search-bar desktop-search-bar">
+      {[['Destination', 'Ville, région…'], ['Arrivée', 'jj / mm / aaaa'], ['Départ', 'jj / mm / aaaa']].map(([label, ph]) => (
+        <div key={label} className="search-field-item">
+          <p className="field-label" style={{ marginBottom: '4px' }}>{label}</p>
+          <input
+            placeholder={ph}
+            className="field-input"
+            style={{ background: 'none', border: 'none', padding: '0', borderRadius: '0', fontSize: '15px', boxShadow: 'none' }}
+          />
+        </div>
+      ))}
+      <div className="search-btn-wrapper">
+        <Link to="/search" className="search-submit-btn">
+          Rechercher
+        </Link>
       </div>
-    ))}
-    <div className="search-btn-wrapper">
-      <Link to="/search" className="search-submit-btn">
-        Rechercher
-      </Link>
     </div>
-  </div>
+
+    {/* Mobile Search Pill (Airbnb style) */}
+    <Link to="/search" className="mobile-search-pill">
+      <div className="mobile-search-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '4', overflow: 'visible' }}><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
+      </div>
+      <div className="mobile-search-text">
+        <div className="mobile-search-title">N'importe où</div>
+        <div className="mobile-search-subtitle">Une semaine • Ajouter des voyageurs</div>
+      </div>
+    </Link>
+  </>
 );
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
