@@ -17,9 +17,20 @@ export const Header: React.FC = () => {
     <header className="nav-wrapper">
       <div className="container nav-inner">
         {/* Logo */}
-        <Link to="/" className="nav-logo">
-          <span className="nav-logo-dot" />
-          Lumière
+        <Link to="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src="/assets/logo.png"
+            alt="Lumière Logo"
+            className="nav-logo-img"
+            style={{
+              height: '64px',
+              maxHeight: '64px',
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 4px 12px rgba(26, 54, 93, 0.22))',
+              transition: 'transform 0.2s ease',
+            }}
+          />
         </Link>
 
         {/* Desktop nav links */}
@@ -109,10 +120,18 @@ export const Footer: React.FC = () => (
     <div className="container" style={{ padding: '64px 40px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '40px', marginBottom: '48px' }}>
         <div>
-          <div className="nav-logo" style={{ marginBottom: '16px', fontSize: '20px' }}>
-            <span className="nav-logo-dot" />
-            Lumière
-          </div>
+          <Link to="/" className="nav-logo" style={{ marginBottom: '16px', display: 'inline-flex', alignItems: 'center' }}>
+            <img
+              src="/assets/logo.png"
+              alt="Lumière Logo"
+              style={{
+                height: '60px',
+                width: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 4px 12px rgba(26, 54, 93, 0.22))',
+              }}
+            />
+          </Link>
           <p style={{ fontSize: '14px', color: 'var(--color-muted)', lineHeight: 1.7 }}>
             Location courte durée, sélectionnée avec soin.
           </p>
