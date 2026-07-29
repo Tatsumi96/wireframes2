@@ -133,8 +133,8 @@ export const Header: React.FC = () => {
 
 export const Footer: React.FC = () => (
   <footer className="footer-wrapper">
-    <div className="container" style={{ padding: '64px 40px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '40px', marginBottom: '48px' }}>
+    <div className="container" style={{ padding: '40px 40px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '32px', marginBottom: '32px' }}>
         <div>
           <Link to="/" className="nav-logo" style={{ marginBottom: '16px', display: 'inline-flex', alignItems: 'center' }}>
             <img

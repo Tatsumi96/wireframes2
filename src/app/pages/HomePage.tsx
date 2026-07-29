@@ -116,7 +116,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured properties */}
-      <section className="container featured-properties-section" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+      <section className="container featured-properties-section" style={{ paddingTop: '56px', paddingBottom: '40px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '36px' }}>
           <div>
             <SectionLabel text="Sélection du moment" />
@@ -136,9 +136,9 @@ export default function HomePage() {
       <Divider />
 
       {/* Categories */}
-      <section className="container" style={{ paddingBottom: '80px' }}>
+      <section className="container" style={{ paddingBottom: '40px' }}>
         <SectionLabel text="Catégories" />
-        <h2 style={{ marginBottom: '28px' }}>Trouvez par type de bien</h2>
+        <h2 style={{ marginBottom: '24px' }}>Trouvez par type de bien</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
           {['Villas', 'Appartements', 'Maisons', 'Chalets', 'Bord de mer', 'Montagne', 'Campagne', 'Lofts'].map((c, i) => (
             <Pill key={c} label={c} accent={i === 0} />
@@ -147,9 +147,9 @@ export default function HomePage() {
       </section>
 
       {/* Inspiration Gallery */}
-      <section className="container" style={{ paddingBottom: '80px' }}>
+      <section className="container" style={{ paddingBottom: '40px' }}>
         <SectionLabel text="Inspirations" />
-        <h2 style={{ marginBottom: '40px' }}>Explorez nos plus beaux intérieurs</h2>
+        <h2 style={{ marginBottom: '28px' }}>Explorez nos plus beaux intérieurs</h2>
         <div className="inspiration-gallery">
           {PROPERTY_IMAGES.slice(0, 5).map((prop, i) => (
             <div key={prop.id} className={`gallery-item item-${i + 1} fade-in-up delay-${i + 1}`}>
@@ -165,9 +165,9 @@ export default function HomePage() {
       <Divider />
 
       {/* Values */}
-      <section className="container" style={{ paddingBottom: '80px' }}>
+      <section className="container" style={{ paddingBottom: '40px' }}>
         <SectionLabel text="Pourquoi Destino" />
-        <h2 style={{ marginBottom: '40px' }}>L'excellence, à chaque étape</h2>
+        <h2 style={{ marginBottom: '28px' }}>L'excellence, à chaque étape</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
           {[
             { title: 'Sélection rigoureuse', desc: 'Chaque propriété est inspectée et validée par notre équipe.' },
@@ -185,7 +185,7 @@ export default function HomePage() {
       <Divider />
 
       {/* CTA Owner */}
-      <section className="container" style={{ paddingBottom: '100px' }}>
+      <section className="container" style={{ paddingBottom: '40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
           <div className="fade-in-up">
             <SectionLabel text="Propriétaires" />

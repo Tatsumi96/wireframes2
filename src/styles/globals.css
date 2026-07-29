@@ -342,7 +342,6 @@ a {
   border-top: 1px solid var(--color-border);
 }
 
-
 /* ─── Buttons ────────────────────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
@@ -440,7 +439,6 @@ a {
   outline-offset: 2px;
   border-radius: var(--radius-btn);
 }
-
 
 /* ─── Pills / Badges ─────────────────────────────────────────────────────── */
 .pill {
@@ -982,14 +980,14 @@ a {
 .footer-wrapper {
   border-top: 1px solid var(--color-border-light);
   background: var(--color-surface);
-  margin-top: 60px;
+  margin-top: 32px;
 }
 
 /* ─── Divider ────────────────────────────────────────────────────────────── */
 .divider {
   border: none;
   border-top: 1px solid var(--color-border-light);
-  margin: 56px 0;
+  margin: 28px 0;
 }
 
 /* ─── Tag / Star Badge ───────────────────────────────────────────────────── */
@@ -1005,7 +1003,6 @@ a {
   font-weight: 600;
   color: var(--color-primary);
 }
-
 
 /* ─── Header Mobile Top Search Bar ────────────────────────────────────────── */
 .header-mobile-search-bar {
@@ -1038,7 +1035,7 @@ a {
 
   .featured-properties-section {
     padding-top: 24px !important;
-    padding-bottom: 40px !important;
+    padding-bottom: 24px !important;
   }
 
   .desktop-search-bar {
@@ -1265,7 +1262,7 @@ a {
     box-shadow: var(--shadow-md);
   }
 
-  .footer-wrapper { margin-top: 32px; }
+  .footer-wrapper { margin-top: 24px; }
 }
 
 @media (max-width: 990px) {
@@ -1369,4 +1366,3 @@ a {
   0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
   40%           { opacity: 1;   transform: scale(1); }
 }
-
