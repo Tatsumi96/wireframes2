@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, MapPin, CheckCircle } from 'lucide-react';
-import { ImgPlaceholder, Pill, SectionLabel, Divider } from '../components/Layout';
-import { PROPERTY_IMAGES, MAP_PREVIEW_IMAGE, CALENDAR_PREVIEW_IMAGE, REVIEWER_AVATARS } from '../data/images';
+import { ImgPlaceholder, Pill, SectionLabel, Divider, HeartToggle } from '../components/Layout';
+import MapView from '../components/MapView';
+import { PROPERTY_IMAGES, CALENDAR_PREVIEW_IMAGE, REVIEWER_AVATARS } from '../data/images';
 
 const property = PROPERTY_IMAGES[0];
 
@@ -33,7 +34,7 @@ const reviewsData = [
 const ReviewCard: React.FC<{ review: typeof reviewsData[0] }> = ({ review }) => (
   <div style={{ padding: '22px 0', borderBottom: '1px solid var(--color-border-light)' }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
-      <div style={{ width: '46px', height: '46px', borderRadius: '50%', overflow: 'hidden', border: '2px solid var(--color-border)', flexShrink: 0 }}>
+      <div style={{ width: '46px', height: '46px', borderRadius: '50%', overflow: 'hidden', border: 'var(--border-width) solid var(--color-border)', flexShrink: 0 }}>
         <ImgPlaceholder src={review.avatar} alt={review.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
       <div>
@@ -85,7 +86,10 @@ export default function PropertyPage() {
 
           {/* Left: details */}
           <div className="fade-in-up">
-            <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: '14px' }}>{property.title}</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
+              <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)' }}>{property.title}</h1>
+              <HeartToggle propertyId={property.id} style={{ position: 'static', width: 40, height: 40, background: 'var(--color-surface-2)', flexShrink: 0 }} />
+            </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '32px' }}>
               {['Luberon', 'Villa', '8 pers.', '4 chambres'].map(t => <Pill key={t} label={t} />)}
               <span className="pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
@@ -97,7 +101,7 @@ export default function PropertyPage() {
             <SectionLabel text="Description" />
             <div style={{
               background: 'var(--color-surface)',
-              border: '1.5px solid var(--color-border-light)',
+              border: 'var(--border-width) solid var(--color-border-light)',
               borderRadius: 'var(--radius-card)',
               padding: '28px',
               marginBottom: '32px',
@@ -128,7 +132,7 @@ export default function PropertyPage() {
               height: '260px',
               overflow: 'hidden',
               borderRadius: 'var(--radius-card)',
-              border: '1.5px solid var(--color-border-light)',
+              border: 'var(--border-width) solid var(--color-border-light)',
               marginBottom: '32px',
               position: 'relative',
             }}>
@@ -137,7 +141,7 @@ export default function PropertyPage() {
                 <div style={{
                   background: 'var(--color-surface)',
                   borderRadius: 'var(--radius-card)',
-                  border: '1.5px solid var(--color-border)',
+                  border: 'var(--border-width) solid var(--color-border)',
                   padding: '20px 28px',
                   textAlign: 'center',
                 }}>
@@ -153,11 +157,16 @@ export default function PropertyPage() {
               height: '240px',
               overflow: 'hidden',
               borderRadius: 'var(--radius-card)',
-              border: '1.5px solid var(--color-border-light)',
+              border: 'var(--border-width) solid var(--color-border-light)',
               marginBottom: '32px',
               position: 'relative',
             }}>
-              <ImgPlaceholder src={MAP_PREVIEW_IMAGE} alt="Carte localisation" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+              <MapView
+                markers={[{ lat: property.coords.lat, lng: property.coords.lng, title: property.title, price: property.price }]}
+                center={[property.coords.lat, property.coords.lng]}
+                zoom={13}
+                interactive={false}
+              />
               <div style={{
                 position: 'absolute', bottom: '16px', left: '16px', right: '16px',
                 background: 'rgba(255,255,255,0.95)',
@@ -168,7 +177,8 @@ export default function PropertyPage() {
                 color: 'var(--color-dark)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '8px',
+                zIndex: 1000,
               }}>
                 <MapPin size={16} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
                 <span>Luberon · Adresse exacte transmise après réservation</span>
@@ -192,10 +202,10 @@ export default function PropertyPage() {
                 <span style={{ fontSize: '13px', color: 'var(--color-muted)' }}>· 48 avis</span>
               </div>
               <Divider />
-              <div style={{ border: '1.5px solid var(--color-border)', borderRadius: 'var(--radius-input)', marginBottom: '16px', overflow: 'hidden' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1.5px solid var(--color-border)' }}>
+              <div style={{ border: 'var(--border-width) solid var(--color-border)', borderRadius: 'var(--radius-input)', marginBottom: '16px', overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: 'var(--border-width) solid var(--color-border)' }}>
                   {[['ARRIVÉE', '14 / 08 / 2024'], ['DÉPART', '21 / 08 / 2024']].map(([l, p]) => (
-                    <div key={l} style={{ padding: '14px 16px', borderRight: l === 'ARRIVÉE' ? '1.5px solid var(--color-border)' : 'none' }}>
+                    <div key={l} style={{ padding: '14px 16px', borderRight: l === 'ARRIVÉE' ? 'var(--border-width) solid var(--color-border)' : 'none' }}>
                       <p className="field-label" style={{ marginBottom: '4px' }}>{l}</p>
                       <input defaultValue={p} style={{ background: 'none', border: 'none', outline: 'none', fontFamily: 'var(--font-body)', fontSize: '14px', width: '100%', color: 'var(--color-dark)', fontWeight: 600 }} />
                     </div>

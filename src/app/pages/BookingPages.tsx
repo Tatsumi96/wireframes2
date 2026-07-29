@@ -32,9 +32,9 @@ export function BookingStep1() {
     <div className="container" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={0} />
       <div className="booking-step-grid">
-        <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
+        <div style={{ background: 'var(--color-surface)', border: 'var(--border-width) solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
           <SectionLabel text="Sélection des dates" />
-          <div style={{ height: '280px', overflow: 'hidden', borderRadius: 'var(--radius-card)', border: '1.5px solid var(--color-border-light)', marginBottom: '28px' }}>
+          <div style={{ height: '280px', overflow: 'hidden', borderRadius: 'var(--radius-card)', border: 'var(--border-width) solid var(--color-border-light)', marginBottom: '28px' }}>
             <ImgPlaceholder src={CALENDAR_PREVIEW_IMAGE} alt="Sélection de dates" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
           </div>
           <Divider />
@@ -43,7 +43,7 @@ export function BookingStep1() {
             {['Adultes', 'Enfants'].map(l => (
               <div key={l}>
                 <p className="field-label" style={{ marginBottom: '10px' }}>{l}</p>
-                <div style={{ border: '1.5px solid var(--color-border)', borderRadius: 'var(--radius-input)', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', background: 'var(--color-surface-2)' }}>
+                <div style={{ border: 'var(--border-width) solid var(--color-border)', borderRadius: 'var(--radius-input)', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', background: 'var(--color-surface-2)' }}>
                   <button style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '20px', fontWeight: 700 }}>−</button>
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 700, color: 'var(--color-dark)' }}>2</span>
                   <button style={{ background: 'none', border: 'none', color: 'var(--color-primary)', cursor: 'pointer', fontSize: '20px', fontWeight: 700 }}>+</button>
@@ -67,7 +67,7 @@ export function BookingStep2() {
   return (
     <div className="container" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={1} />
-      <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ background: 'var(--color-surface)', border: 'var(--border-width) solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
         <SectionLabel text="Récapitulatif de la réservation" />
         <div className="booking-recap-grid" style={{ marginBottom: '28px' }}>
           <div style={{ borderRadius: 'var(--radius-card)', overflow: 'hidden', height: '150px' }}>
@@ -118,7 +118,7 @@ export function BookingStep3() {
     <div className="container" style={{ paddingTop: '48px', paddingBottom: '80px' }}>
       <StepBar steps={['1. Dates & voyageurs', '2. Récapitulatif', '3. Paiement']} current={2} />
       <div className="booking-step-grid">
-        <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
+        <div style={{ background: 'var(--color-surface)', border: 'var(--border-width) solid var(--color-border-light)', borderRadius: 'var(--radius-card)', padding: '36px' }}>
           <SectionLabel text="Paiement sécurisé" />
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '24px' }}>
             <div style={{ height: '36px', width: '90px', borderRadius: 'var(--radius-badge)', overflow: 'hidden', border: '1px solid var(--color-border)' }}>

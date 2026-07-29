@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Heart } from 'lucide-react';
+import { useFavorites } from '../context/FavoriteContext';
 
 // ─── Header ──────────────────────────────────────────────────────────────────
 
@@ -20,7 +22,7 @@ export const Header: React.FC = () => {
         <Link to="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center' }}>
           <img
             src="/assets/logo.png"
-            alt="Lumière Logo"
+            alt="Destino Logo"
             className="nav-logo-img"
             style={{
               height: '52px',
@@ -33,17 +35,19 @@ export const Header: React.FC = () => {
           />
         </Link>
 
-        {/* Mobile Header Top Search Bar (Airbnb App style) */}
-        <Link to="/search" className="header-mobile-search-bar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-primary)', flexShrink: 0 }}>
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-            <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              {/* Animated mobile suggestions */}
-              <MobileSearchSuggestions />
-            </div>
-        </Link>
+        {/* Mobile Header Top Search Bar (Airbnb App style) — cachée sur les pages sans recherche */}
+        {!['/search', '/contact', '/about', '/legal'].includes(location.pathname) && (
+          <Link to="/search" className="header-mobile-search-bar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-primary)', flexShrink: 0 }}>
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                {/* Animated mobile suggestions */}
+                <MobileSearchSuggestions />
+              </div>
+          </Link>
+        )}
 
         {/* Desktop nav links */}
         <ul className="nav-links">
@@ -103,7 +107,7 @@ export const Header: React.FC = () => {
                 padding: '12px 16px',
                 color: location.pathname === link.to ? 'var(--color-primary)' : 'var(--color-body)',
                 background: location.pathname === link.to ? 'var(--color-surface-2)' : 'transparent',
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-md)',
                 fontSize: '15px',
                 fontWeight: 500,
               }}
@@ -135,7 +139,7 @@ export const Footer: React.FC = () => (
           <Link to="/" className="nav-logo" style={{ marginBottom: '16px', display: 'inline-flex', alignItems: 'center' }}>
             <img
               src="/assets/logo.png"
-              alt="Lumière Logo"
+              alt="Destino Logo"
               style={{
                 height: '60px',
                 width: 'auto',
@@ -166,7 +170,7 @@ export const Footer: React.FC = () => (
       </div>
       <div style={{ borderTop: '1px solid var(--color-border-light)', paddingTop: '24px' }}>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-muted)' }}>
-          © {new Date().getFullYear()} Lumière · Tous droits réservés
+          © {new Date().getFullYear()} Destino · Tous droits réservés
         </p>
       </div>
     </div>
@@ -315,14 +319,38 @@ export const SectionLabel: React.FC<{ text: string }> = ({ text }) => (
 export const Divider: React.FC = () => <hr className="divider" />;
 
 export const Card: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
-  <div style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border-light)', borderRadius: 'var(--radius-card)', ...style }}>
+  <div style={{ background: 'var(--color-surface)', border: 'var(--border-width) solid var(--color-border-light)', borderRadius: 'var(--radius-card)', ...style }}>
     {children}
   </div>
 );
 
+export const HeartToggle: React.FC<{ propertyId: string; style?: React.CSSProperties }> = ({ propertyId, style }) => {
+  const { isFavorite, toggle } = useFavorites();
+  const fav = isFavorite(propertyId);
+  return (
+    <button
+      type="button"
+      onClick={e => { e.preventDefault(); e.stopPropagation(); toggle(propertyId); }}
+      aria-label={fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+      style={{
+        position: 'absolute', top: '12px', left: '12px', zIndex: 10,
+        width: 34, height: 34, borderRadius: '50%',
+        background: fav ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.25)',
+        border: 'none', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'all 0.15s',
+        ...style,
+      }}
+    >
+      <Heart size={16} fill={fav ? '#e11d48' : 'none'} color={fav ? '#e11d48' : '#fff'} />
+    </button>
+  );
+};
+
 // ─── Mobile Bottom Navigation (Airbnb App style) ──────────────────────────────
 export const MobileBottomNav: React.FC = () => {
   const location = useLocation();
+  const { count: favCount } = useFavorites();
 
   const navItems = [
     {
@@ -332,28 +360,6 @@ export const MobileBottomNav: React.FC = () => {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-      ),
-    },
-    {
-      to: '/search',
-      label: 'Recherche',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="12 2 2 7 12 12 22 7 12 2" />
-          <polyline points="2 17 12 22 22 17" />
-          <polyline points="2 12 12 17 22 12" />
-        </svg>
-      ),
-    },
-    {
-      to: '/about',
-      label: 'À propos',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="16" x2="12" y2="12" />
-          <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
       ),
     },
@@ -369,11 +375,18 @@ export const MobileBottomNav: React.FC = () => {
     {
       to: '/client',
       label: 'Profil',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
+      icon: (favCount: number) => (
+        <span style={{ position: 'relative', display: 'inline-block' }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          {favCount > 0 && (
+            <span style={{ position: 'absolute', top: -4, right: -6, background: '#e11d48', color: '#fff', fontSize: 9, fontWeight: 700, borderRadius: '50%', width: 16, height: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}>
+              {favCount}
+            </span>
+          )}
+        </span>
       ),
     },
   ];
@@ -381,14 +394,14 @@ export const MobileBottomNav: React.FC = () => {
   return (
     <nav className="mobile-app-bottom-nav">
       {navItems.map((item) => {
-        const isActive = location.pathname === item.to || (item.to === '/client' && location.pathname.startsWith('/client'));
+        const isActive = location.pathname === item.to || (item.to === '/' && ['/', '/search'].includes(location.pathname)) || (item.to === '/client' && location.pathname.startsWith('/client'));
         return (
           <Link
             key={item.to}
             to={item.to}
             className={`mobile-nav-item${isActive ? ' active' : ''}`}
           >
-            <span className="mobile-nav-icon">{item.icon}</span>
+            <span className="mobile-nav-icon">{typeof item.icon === 'function' ? item.icon(favCount) : item.icon}</span>
             <span className="mobile-nav-label">{item.label}</span>
           </Link>
         );

@@ -1,7 +1,8 @@
 import React from 'react';
 import { MapPin, Mail, Phone, Clock } from 'lucide-react';
 import { Field, ImgPlaceholder, SectionLabel, Divider } from '../components/Layout';
-import { ABOUT_HERO_IMAGE, CONTACT_MAP_IMAGE, TEAM_MEMBERS } from '../data/images';
+import MapView from '../components/MapView';
+import { ABOUT_HERO_IMAGE, TEAM_MEMBERS } from '../data/images';
 
 // ─── Contact page ─────────────────────────────────────────────────────────────
 
@@ -16,7 +17,7 @@ export function ContactPage() {
           className="fade-in-up"
           style={{
             background: 'var(--color-surface)',
-            border: '1.5px solid var(--color-border-light)',
+            border: 'var(--border-width) solid var(--color-border-light)',
             borderRadius: 'var(--radius-card)',
             padding: '36px',
             display: 'flex',
@@ -47,7 +48,7 @@ export function ContactPage() {
           <SectionLabel text="Nos coordonnées" />
           <div style={{
             background: 'var(--color-surface)',
-            border: '1.5px solid var(--color-border-light)',
+            border: 'var(--border-width) solid var(--color-border-light)',
             borderRadius: 'var(--radius-card)',
             padding: '24px',
             marginBottom: '20px',
@@ -66,10 +67,13 @@ export function ContactPage() {
               </p>
             ))}
           </div>
-          <div className="equal-card" style={{ height: '260px' }}>
-            <div className="card-img-wrapper" style={{ height: '100%' }}>
-              <ImgPlaceholder src={CONTACT_MAP_IMAGE} alt="Bureaux Lumière à Avignon" />
-            </div>
+          <div className="equal-card" style={{ height: '260px', overflow: 'hidden' }}>
+            <MapView
+              markers={[{ lat: 43.95, lng: 4.81, title: 'Destino — Avignon' }]}
+              center={[43.95, 4.81]}
+              zoom={14}
+              interactive={false}
+            />
           </div>
         </div>
       </div>
@@ -84,7 +88,7 @@ export function AboutPage() {
     <div className="fade-in">
       {/* Hero image */}
       <div style={{ height: '380px', width: '100%', overflow: 'hidden', position: 'relative' }}>
-        <ImgPlaceholder src={ABOUT_HERO_IMAGE} alt="Domaine Lumière" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+        <ImgPlaceholder src={ABOUT_HERO_IMAGE} alt="Domaine Destino" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,23,64,0.35)' }} />
         {/* Overlay headline */}
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', padding: '48px' }}>
@@ -99,7 +103,7 @@ export function AboutPage() {
           <SectionLabel text="Notre histoire" />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', marginBottom: '64px' }}>
             <p style={{ color: 'var(--color-body)', lineHeight: 1.8, fontSize: '15px' }}>
-              Fondée en 2018, Lumière sélectionne des propriétés d'exception pour des voyageurs qui cherchent plus qu'un simple hébergement. Nous privilégions l'authenticité, le caractère et la relation directe avec des propriétaires passionnés.
+              Fondée en 2018, Destino sélectionne des propriétés d'exception pour des voyageurs qui cherchent plus qu'un simple hébergement. Nous privilégions l'authenticité, le caractère et la relation directe avec des propriétaires passionnés.
             </p>
             <p style={{ color: 'var(--color-body)', lineHeight: 1.8, fontSize: '15px' }}>
               Chaque bien est visité et évalué par notre équipe avant d'être référencé. Nous garantissons un niveau de qualité homogène et une expérience irréprochable, de la réservation au départ.
@@ -111,7 +115,7 @@ export function AboutPage() {
 
         {/* Team */}
         <SectionLabel text="Notre équipe" />
-        <h2 style={{ marginBottom: '36px' }}>Les visages derrière Lumière</h2>
+        <h2 style={{ marginBottom: '36px' }}>Les visages derrière Destino</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '24px', marginBottom: '64px', alignItems: 'stretch' }}>
           {TEAM_MEMBERS.map((member, idx) => (
             <div key={member.name} className={`equal-card fade-in-up delay-${idx + 1}`}>
@@ -179,7 +183,7 @@ export function LegalPage() {
             <h3 style={{ marginBottom: '12px' }}>Article {i} — Conditions relatives aux réservations</h3>
             <div style={{
               background: 'var(--color-surface)',
-              border: '1.5px solid var(--color-border-light)',
+              border: 'var(--border-width) solid var(--color-border-light)',
               borderRadius: 'var(--radius-card)',
               padding: '22px',
               fontFamily: 'var(--font-body)',
@@ -187,7 +191,7 @@ export function LegalPage() {
               color: 'var(--color-body)',
               lineHeight: 1.8,
             }}>
-              Les dispositions du présent article régissent l'accès, l'utilisation et la réservation de logements d'exception sur la plateforme Lumière. Toute réservation implique l'acceptation pleine et entière des conditions générales d'utilisation.
+              Les dispositions du présent article régissent l'accès, l'utilisation et la réservation de logements d'exception sur la plateforme Destino. Toute réservation implique l'acceptation pleine et entière des conditions générales d'utilisation.
             </div>
           </div>
         ))}

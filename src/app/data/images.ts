@@ -1,6 +1,19 @@
 // High-resolution curated images from Unsplash for luxury booking platform
 
-export const PROPERTY_IMAGES = [
+export interface PropertyData {
+  id: string;
+  title: string;
+  location: string;
+  specs: string;
+  rating: string;
+  reviewsCount: number;
+  price: string;
+  src: string;
+  gallery?: string[];
+  coords: { lat: number; lng: number };
+}
+
+export const PROPERTY_IMAGES: PropertyData[] = [
   {
     id: 'bastide-luberon',
     title: 'Bastide provençale avec piscine',
@@ -9,6 +22,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.9',
     reviewsCount: 48,
     price: '350 €',
+    coords: { lat: 43.75, lng: 5.35 },
     src: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=85',
@@ -26,6 +40,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.95',
     reviewsCount: 32,
     price: '580 €',
+    coords: { lat: 43.55, lng: 7.01 },
     src: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=85',
   },
   {
@@ -36,6 +51,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.88',
     reviewsCount: 54,
     price: '620 €',
+    coords: { lat: 45.92, lng: 6.87 },
     src: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=85',
   },
   {
@@ -46,6 +62,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.92',
     reviewsCount: 29,
     price: '420 €',
+    coords: { lat: 48.86, lng: 2.35 },
     src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=85',
   },
   {
@@ -56,6 +73,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.97',
     reviewsCount: 61,
     price: '290 €',
+    coords: { lat: 43.91, lng: 5.20 },
     src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=85',
   },
   {
@@ -66,6 +84,7 @@ export const PROPERTY_IMAGES = [
     rating: '4.85',
     reviewsCount: 40,
     price: '450 €',
+    coords: { lat: 43.70, lng: 7.27 },
     src: 'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=85',
   },
 ];

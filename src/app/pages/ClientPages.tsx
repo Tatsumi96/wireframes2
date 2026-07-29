@@ -1,8 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Key, Star } from 'lucide-react';
-import { PortalSidebar, ImgPlaceholder, SectionLabel, Divider, Field } from '../components/Layout';
+import { Key, Star, AlertCircle, Clock, CheckCircle, XCircle, RotateCcw, HelpCircle, Heart } from 'lucide-react';
+import { PortalSidebar, ImgPlaceholder, SectionLabel, Divider, Field, HeartToggle } from '../components/Layout';
+import { useFavorites } from '../context/FavoriteContext';
 import { PROPERTY_IMAGES, REVIEWER_AVATARS } from '../data/images';
+
+type BookingStatus = 'en-attente' | 'confirmée' | 'en-cours' | 'terminée' | 'annulée' | 'remboursée' | 'litige';
+
+const STATUS_CONFIG: Record<BookingStatus, { label: string; color: string; bg: string; icon: React.ReactNode; actions: string[] }> = {
+  'en-attente': { label: 'En attente', color: '#d97706', bg: '#fffbeb', icon: <Clock size={14} />, actions: ['Détails', 'Annuler'] },
+  'confirmée':  { label: 'Confirmée', color: '#b8654a', bg: '#fff5f0', icon: <CheckCircle size={14} />, actions: ['Détails', 'Contacter'] },
+  'en-cours':   { label: 'En cours', color: '#059669', bg: '#ecfdf5', icon: <AlertCircle size={14} />, actions: ['Détails', 'Contacter le propriétaire'] },
+  'terminée':   { label: 'Terminée', color: '#6b7280', bg: '#f3f4f6', icon: <CheckCircle size={14} />, actions: ['Détails', 'Laisser un avis', 'Relouer'] },
+  'annulée':    { label: 'Annulée', color: '#dc2626', bg: '#fef2f2', icon: <XCircle size={14} />, actions: ['Détails', 'Réclamer'] },
+  'remboursée': { label: 'Remboursée', color: '#7c3aed', bg: '#f5f3ff', icon: <RotateCcw size={14} />, actions: ['Détails'] },
+  'litige':     { label: 'Litige', color: '#dc2626', bg: '#fef2f2', icon: <HelpCircle size={14} />, actions: ['Détails', 'Contacter le support'] },
+};
 
 // ─── Client Portal ─────────────────────────────────────────────────────────────
 
@@ -10,6 +23,7 @@ const clientLinks = [
   { label: 'Dashboard', to: '/client' },
   { label: 'Mes réservations', to: '/client/booking' },
   { label: 'Paiements', to: '/client/payments' },
+  { label: 'Mes favoris', to: '/client/favorites' },
   { label: 'Paramètres', to: '/client/settings' },
 ];
 
@@ -20,23 +34,30 @@ const StatCard: React.FC<{ label: string; value: string }> = ({ label, value }) 
   </div>
 );
 
-const BookingRow: React.FC<{ property: typeof PROPERTY_IMAGES[0]; refCode: string; dates: string; past?: boolean }> = ({ property, refCode, dates, past }) => (
-  <div className="equal-card" style={{ flexDirection: 'row', alignItems: 'center', padding: '16px', gap: '16px' }}>
-    <div className="card-img-wrapper" style={{ width: '100px', height: '70px', flexShrink: 0, borderRadius: '2px' }}>
-      <ImgPlaceholder src={property.src} alt={property.title} />
-    </div>
-    <div style={{ flex: 1 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-        <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-anthracite)' }}>{property.title}</p>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', padding: '3px 8px', border: '1px solid ' + (past ? 'var(--color-border)' : 'var(--color-terracotta)'), color: past ? 'var(--color-taupe)' : 'var(--color-terracotta)' }}>
-          {past ? 'Terminé' : 'Confirmée'}
-        </span>
+const BookingRow: React.FC<{ property: typeof PROPERTY_IMAGES[0]; refCode: string; dates: string; status: BookingStatus; price: string }> = ({ property, refCode, dates, status, price }) => {
+  const cfg = STATUS_CONFIG[status];
+  return (
+    <div className="equal-card" style={{ flexDirection: 'row', alignItems: 'center', padding: '16px', gap: '16px' }}>
+      <div className="card-img-wrapper" style={{ width: '100px', height: '70px', flexShrink: 0, borderRadius: '2px' }}>
+        <ImgPlaceholder src={property.src} alt={property.title} />
       </div>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)' }}>{dates} · {property.price} · Réf. #{refCode}</p>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+          <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-anthracite)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>{property.title}</p>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: 'var(--font-mono)', fontSize: '11px', padding: '3px 10px', background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}20`, borderRadius: 'var(--radius-sm)', flexShrink: 0, marginLeft: '8px', fontWeight: 600 }}>
+            {cfg.icon} {cfg.label}
+          </span>
+        </div>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{dates} · {price} · Réf. #{refCode}</p>
+        <div style={{ display: 'flex', gap: '12px', marginTop: '6px' }}>
+          {cfg.actions.map(action => (
+            <Link key={action} to={action === 'Détails' ? '/client/booking' : '#'} style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--color-taupe)', textDecoration: 'underline', flexShrink: 0 }}>{action}</Link>
+          ))}
+        </div>
+      </div>
     </div>
-    <Link to="/client/booking" style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-taupe)', textDecoration: 'underline', flexShrink: 0 }}>Détails</Link>
-  </div>
-);
+  );
+};
 
 export function ClientDashboard() {
   return (
@@ -57,16 +78,13 @@ export function ClientDashboard() {
           <StatCard label="Nuits réservées" value="47" />
           <StatCard label="Dépenses totales" value="6 240 €" />
         </div>
-        <SectionLabel text="Réservations en cours" />
+        <SectionLabel text="Réservations" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-          <BookingRow property={PROPERTY_IMAGES[0]} refCode="AB1234" dates="14/08 → 21/08 (7 nuits)" />
-          <BookingRow property={PROPERTY_IMAGES[1]} refCode="CD5678" dates="10/09 → 15/09 (5 nuits)" />
-        </div>
-        <SectionLabel text="Séjours passés" />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <BookingRow property={PROPERTY_IMAGES[2]} refCode="EF9012" dates="12/02 → 19/02/2024" past />
-          <BookingRow property={PROPERTY_IMAGES[3]} refCode="GH3456" dates="05/11 → 08/11/2023" past />
-          <BookingRow property={PROPERTY_IMAGES[4]} refCode="IJ7890" dates="20/07 → 27/07/2023" past />
+          <BookingRow property={PROPERTY_IMAGES[0]} refCode="AB1234" dates="14/08 → 21/08 (7 nuits)" price="2 665 €" status="confirmée" />
+          <BookingRow property={PROPERTY_IMAGES[1]} refCode="CD5678" dates="10/09 → 15/09 (5 nuits)" price="1 890 €" status="en-attente" />
+          <BookingRow property={PROPERTY_IMAGES[2]} refCode="EF9012" dates="12/02 → 19/02/2024" price="2 450 €" status="terminée" />
+          <BookingRow property={PROPERTY_IMAGES[3]} refCode="GH3456" dates="05/11 → 08/11/2023" price="1 200 €" status="remboursée" />
+          <BookingRow property={PROPERTY_IMAGES[4]} refCode="IJ7890" dates="20/07 → 27/07/2023" price="3 100 €" status="annulée" />
         </div>
       </div>
     </div>
@@ -114,12 +132,20 @@ export function ClientBooking() {
           </div>
           <div style={{ border: '1px solid var(--color-border)', padding: '24px', background: 'var(--color-ivory)' }}>
             <SectionLabel text="Statut" />
-            <div style={{ padding: '10px 14px', background: 'var(--color-anthracite)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', textAlign: 'center', marginBottom: '14px' }}>CONFIRMÉE</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: STATUS_CONFIG['confirmée'].bg, color: STATUS_CONFIG['confirmée'].color, border: `1px solid ${STATUS_CONFIG['confirmée'].color}20`, borderRadius: 'var(--radius-sm)', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, marginBottom: '14px' }}>
+              {STATUS_CONFIG['confirmée'].icon} CONFIRMÉE
+            </div>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', marginBottom: '6px' }}>Réf. : #AB1234</p>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', marginBottom: '20px' }}>Réservé le : 02/07/2024</p>
             <Divider />
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 600, color: 'var(--color-terracotta)', marginBottom: '4px' }}>2 665 €</p>
             <p style={{ fontSize: '13px', color: 'var(--color-taupe)' }}>Payé par Carte Bancaire (•••• 8892)</p>
+            <Divider />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {['Contacter le propriétaire', 'Voir le contrat', 'Signaler un problème'].map(a => (
+                <Link key={a} to="#" style={{ fontSize: '13px', color: 'var(--color-terracotta)', textDecoration: 'underline' }}>{a} →</Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -199,6 +225,48 @@ export function ClientSettings() {
             <button className="btn-anim" style={{ background: 'var(--color-anthracite)', color: '#fff', padding: '12px 24px', fontFamily: 'var(--font-body)', fontSize: '14px', border: 'none', cursor: 'pointer' }}>Modifier</button>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function ClientFavorites() {
+  const { favorites } = useFavorites();
+  const favProperties = PROPERTY_IMAGES.filter(p => favorites.includes(p.id));
+
+  return (
+    <div className="portal-layout-container fade-in">
+      <PortalSidebar title="Portail Client" links={clientLinks} />
+      <div className="portal-content-area">
+        <h2 style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Heart size={20} style={{ color: '#e11d48' }} fill="#e11d48" /> Mes favoris
+        </h2>
+        {favProperties.length === 0 ? (
+          <div style={{ padding: '48px', textAlign: 'center', border: '1px solid var(--color-border)', background: 'var(--color-ivory)' }}>
+            <Heart size={40} style={{ color: 'var(--color-muted)', marginBottom: '16px' }} />
+            <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-dark)', marginBottom: '8px' }}>Aucun favori pour le moment</p>
+            <p style={{ fontSize: '14px', color: 'var(--color-muted)', marginBottom: '24px' }}>Explorez nos propriétés et ajoutez-les à vos favoris.</p>
+            <Link to="/search" className="btn-primary" style={{ display: 'inline-flex', padding: '10px 24px' }}>Explorer les biens</Link>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {favProperties.map(p => (
+              <Link key={p.id} to="/property" style={{ textDecoration: 'none' }}>
+                <div className="equal-card" style={{ flexDirection: 'row', alignItems: 'center', padding: '16px', gap: '16px' }}>
+                  <div className="card-img-wrapper" style={{ width: '120px', height: '80px', flexShrink: 0, borderRadius: '2px' }}>
+                    <ImgPlaceholder src={p.src} alt={p.title} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-anthracite)', marginBottom: '4px' }}>{p.title}</p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-taupe)', marginBottom: '4px' }}>{p.location} · {p.specs}</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 700, color: 'var(--color-primary)' }}>{p.price} / nuit</p>
+                  </div>
+                  <HeartToggle propertyId={p.id} style={{ position: 'static', width: 36, height: 36, background: 'var(--color-surface-2)', flexShrink: 0 }} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

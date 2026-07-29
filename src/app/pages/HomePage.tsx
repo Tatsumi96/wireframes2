@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
-import { Btn, ImgPlaceholder, Pill, SectionLabel, Divider } from '../components/Layout';
+import { Btn, ImgPlaceholder, Pill, SectionLabel, Divider, HeartToggle } from '../components/Layout';
+import { DestinationSelect, DatePicker, GuestsInput } from '../components/SearchFields';
+import { useSearch } from '../context/SearchContext';
 import { PROPERTY_IMAGES, HERO_HOME_IMAGE, HOST_OWNER_IMAGE } from '../data/images';
 
 // ─── Property Card ────────────────────────────────────────────────────────────
@@ -9,6 +11,7 @@ const PropertyCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ prope
   <Link to="/property" style={{ display: 'block', textDecoration: 'none', height: '100%' }}>
     <div className="equal-card">
       <div className="card-img-wrapper">
+        <HeartToggle propertyId={property.id} />
         <ImgPlaceholder src={property.src} alt={property.title} />
         {/* Rating badge */}
         <div style={{
@@ -44,39 +47,45 @@ const PropertyCard: React.FC<{ property: typeof PROPERTY_IMAGES[0] }> = ({ prope
 );
 
 // ─── Hero Search Bar ──────────────────────────────────────────────────────────
-const SearchBar: React.FC = () => (
-  <>
-    {/* Desktop Search Bar */}
-    <div className="hero-search-bar desktop-search-bar">
-      {[['Destination', 'Ville, région…'], ['Arrivée', 'jj / mm / aaaa'], ['Départ', 'jj / mm / aaaa']].map(([label, ph]) => (
-        <div key={label} className="search-field-item">
-          <p className="field-label" style={{ marginBottom: '4px' }}>{label}</p>
-          <input
-            placeholder={ph}
-            className="field-input"
-            style={{ background: 'none', border: 'none', padding: '0', borderRadius: '0', fontSize: '15px', boxShadow: 'none' }}
-          />
-        </div>
-      ))}
-      <div className="search-btn-wrapper">
-        <Link to="/search" className="search-submit-btn">
-          Rechercher
-        </Link>
-      </div>
-    </div>
+const SearchBar: React.FC = () => {
+  const { destination, arrivee, depart, guests, setDestination, setArrivee, setDepart, setGuests } = useSearch();
 
-    {/* Mobile Search Pill (Airbnb style) */}
-    <Link to="/search" className="mobile-search-pill">
-      <div className="mobile-search-icon">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '4', overflow: 'visible' }}><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
+  return (
+    <>
+      {/* Desktop Search Bar */}
+      <div className="hero-search-bar desktop-search-bar">
+        <div className="search-field-item" style={{ borderRight: 'var(--border-width) solid var(--color-border-light)' }}>
+          <DestinationSelect value={destination} onChange={setDestination} />
+        </div>
+        <div className="search-field-item" style={{ borderRight: 'var(--border-width) solid var(--color-border-light)' }}>
+          <DatePicker label="Arrivée" value={arrivee} onChange={setArrivee} />
+        </div>
+        <div className="search-field-item" style={{ borderRight: 'var(--border-width) solid var(--color-border-light)' }}>
+          <DatePicker label="Départ" value={depart} onChange={setDepart} />
+        </div>
+        <div className="search-field-item">
+          <GuestsInput value={guests} onChange={setGuests} />
+        </div>
+        <div className="search-btn-wrapper">
+          <Link to="/search" className="search-submit-btn">
+            Rechercher
+          </Link>
+        </div>
       </div>
-      <div className="mobile-search-text">
-        <div className="mobile-search-title">N'importe où</div>
-        <div className="mobile-search-subtitle">Une semaine • Ajouter des voyageurs</div>
-      </div>
-    </Link>
-  </>
-);
+
+      {/* Mobile Search Pill (Airbnb style) */}
+      <Link to="/search" className="mobile-search-pill">
+        <div className="mobile-search-icon">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style={{ display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'currentcolor', strokeWidth: '4', overflow: 'visible' }}><g fill="none"><path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path></g></svg>
+        </div>
+        <div className="mobile-search-text">
+          <div className="mobile-search-title">{destination || "N'importe où"}</div>
+          <div className="mobile-search-subtitle">{guests || 'Ajouter des voyageurs'}</div>
+        </div>
+      </Link>
+    </>
+  );
+};
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
@@ -113,7 +122,7 @@ export default function HomePage() {
             <SectionLabel text="Sélection du moment" />
             <h2>Propriétés en vedette</h2>
           </div>
-          <Link to="/search" className="px-5 py-3 text-accent text-sm font-semibold rounded-full border border-accent/20 shadow-black/15 hover:shadow-md transition-shadow">Voir tout →</Link>
+          <Link to="/search" className="btn-ghost">Voir tout →</Link>
         </div>
         <div className="card-grid">
           {PROPERTY_IMAGES.map((prop, i) => (
@@ -157,7 +166,7 @@ export default function HomePage() {
 
       {/* Values */}
       <section className="container" style={{ paddingBottom: '80px' }}>
-        <SectionLabel text="Pourquoi Lumière" />
+        <SectionLabel text="Pourquoi Destino" />
         <h2 style={{ marginBottom: '40px' }}>L'excellence, à chaque étape</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
           {[
@@ -189,7 +198,7 @@ export default function HomePage() {
               <Btn label="En savoir plus" variant="secondary" />
             </div>
           </div>
-          <div className="equal-card" style={{ height: '340px', width: '100%', overflow: 'hidden' }}>
+          <div className="equal-card owner-cta-image" style={{ height: '340px', width: '100%', overflow: 'hidden' }}>
             <div className="card-img-wrapper" style={{ height: '100%' }}>
               <ImgPlaceholder src={HOST_OWNER_IMAGE} alt="Propriétaire devant sa villa" />
             </div>
