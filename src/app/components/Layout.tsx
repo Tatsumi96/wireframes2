@@ -338,11 +338,11 @@ export const HeartToggle: React.FC<{ propertyId: string; style?: React.CSSProper
         background: fav ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.25)',
         border: 'none', cursor: 'pointer',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transition: 'all 0.15s',
+        transition: 'background 0.2s ease, transform 0.2s ease',
         ...style,
       }}
     >
-      <Heart size={16} fill={fav ? '#e11d48' : 'none'} color={fav ? '#e11d48' : '#fff'} />
+      <Heart size={16} fill={fav ? '#e11d48' : 'none'} color={fav ? '#e11d48' : '#fff'} style={{ transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)', transform: fav ? 'scale(1.1)' : 'scale(1)' }} />
     </button>
   );
 };

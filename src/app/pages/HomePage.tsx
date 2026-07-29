@@ -99,7 +99,7 @@ export default function HomePage() {
           style={{ position: 'absolute', inset: 0, height: '100%', width: '100%', border: 'none', objectFit: 'cover' }}
         />
         {/* Gradient overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(26,23,64,0.20), rgba(26,23,64,0.70))' }} />
+        <div className="hero-overlay" />
 
         <div className="container" style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '68px' }}>
           <div className="fade-in-up">
