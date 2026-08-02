@@ -770,6 +770,15 @@ a {
   overflow: hidden;
 }
 
+.property-gallery-grid > * {
+  min-width: 0;
+  min-height: 0;
+}
+
+.property-gallery-grid > *:first-child {
+  grid-row: span 2;
+}
+
 .property-main-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
@@ -1162,10 +1171,6 @@ a {
     gap: 32px;
   }
 
-  .property-gallery-grid > *:first-child {
-    grid-row: span 2;
-  }
-
   .portal-layout-container {
     flex-direction: column;
   }
@@ -1243,7 +1248,7 @@ a {
   }
 
   .property-gallery-grid > *:not(:first-child) {
-    display: none;
+    display: none !important;
   }
 
   .mobile-bottom-booking-bar {
