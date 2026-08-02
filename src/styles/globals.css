@@ -141,7 +141,7 @@ a {
 .container {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 5px;
 }
 
 /* ─── Animations ─────────────────────────────────────────────────────────── */
@@ -1031,7 +1031,7 @@ a {
 
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 990px) {
-  .container { padding: 0 20px; }
+  .container { padding: 0 5px; }
 
   .nav-links, .nav-actions, .nav-mobile-btn { display: none !important; }
   .header-mobile-search-bar { display: flex; }

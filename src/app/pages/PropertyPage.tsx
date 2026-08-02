@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, MapPin, CheckCircle } from 'lucide-react';
 import { ImgPlaceholder, Pill, SectionLabel, Divider, HeartToggle } from '../components/Layout';
 import MapView from '../components/MapView';
+import { PhotoGallery } from '../components/PhotoGallery';
 import { PROPERTY_IMAGES, CALENDAR_PREVIEW_IMAGE, REVIEWER_AVATARS } from '../data/images';
 
 const property = PROPERTY_IMAGES[0];
@@ -54,6 +55,8 @@ const ReviewCard: React.FC<{ review: typeof reviewsData[0] }> = ({ review }) => 
 );
 
 export default function PropertyPage() {
+  const [galleryOpen, setGalleryOpen] = useState(false);
+
   return (
     <div className="fade-in" style={{ position: 'relative' }}>
       {/* Gallery grid */}
@@ -65,7 +68,7 @@ export default function PropertyPage() {
           <ImgPlaceholder src={property.gallery![3]} alt="Chambre principale lumineuse" style={{ height: '100%', border: 'none', objectFit: 'cover', borderRadius: '0' }} />
           <div style={{ position: 'relative', height: '100%' }}>
             <ImgPlaceholder src={property.gallery![4]} alt="Piscine privée et jardin" style={{ height: '100%', width: '100%', border: 'none', objectFit: 'cover', borderRadius: '0' }} />
-            <button style={{
+            <button onClick={() => setGalleryOpen(true)} style={{
               position: 'absolute', bottom: '14px', right: '14px',
               background: 'rgba(255,255,255,0.95)',
               borderRadius: 'var(--radius-btn)',
@@ -76,7 +79,12 @@ export default function PropertyPage() {
               fontWeight: 600,
               color: 'var(--color-dark)',
               cursor: 'pointer',
-            }}>+ 12 photos</button>
+              display: 'flex', alignItems: 'center', gap: '6px',
+              transition: 'background 0.2s ease, box-shadow 0.2s ease',
+            }} onMouseOver={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)'; }}
+               onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.95)'; e.currentTarget.style.boxShadow = 'none'; }}>
+              + {property.gallery!.length - 5} photos
+            </button>
           </div>
         </div>
       </div>
@@ -254,6 +262,10 @@ export default function PropertyPage() {
           Réserver →
         </Link>
       </div>
+
+      {galleryOpen && (
+        <PhotoGallery images={property.gallery!} onClose={() => setGalleryOpen(false)} />
+      )}
     </div>
   );
 }
