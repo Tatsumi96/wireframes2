@@ -1281,6 +1281,63 @@ a {
   }
 }
 
+/* ─── Auth (Login / Register) ──────────────────────────────────────────────── */
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 100dvh;
+  background: var(--color-surface);
+}
+
+.auth-visual {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100%;
+}
+
+.auth-visual > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.auth-form-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.auth-form-card {
+  width: 100%;
+  max-width: 400px;
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.08s;
+}
+
+@media (max-width: 990px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    min-height: 100dvh;
+  }
+
+  .auth-visual {
+    display: none;
+  }
+
+  .auth-form-wrap {
+    padding: 40px 20px;
+  }
+
+  .auth-form-card {
+    max-width: 420px;
+  }
+}
+
 /* ─── Mobile App Bottom Navigation (Airbnb Style) ─────────────────────────── */
 .mobile-app-bottom-nav {
   display: none;

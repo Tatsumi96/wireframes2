@@ -11,6 +11,7 @@ import SearchPage from './pages/SearchPage';
 import PropertyPage from './pages/PropertyPage';
 import { BookingStep1, BookingStep2, BookingStep3 } from './pages/BookingPages';
 import { ContactPage, AboutPage, LegalPage } from './pages/InfoPages';
+import { LoginPage, RegisterPage } from './pages/AuthPages';
 
 // Client portal
 import { ClientDashboard, ClientBooking, ClientPayments, ClientSettings, ClientFavorites } from './pages/ClientPages';
@@ -43,11 +44,17 @@ function PortalLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/client') || location.pathname.startsWith('/owner') || location.pathname.startsWith('/admin');
+  const isAuth = location.pathname === '/login' || location.pathname === '/register';
 
   return (
     <SearchProvider>
       <FavoriteProvider>
-      {isPortal ? (
+      {isAuth ? (
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      ) : isPortal ? (
         <>
           <Header />
           <PortalLayout>
