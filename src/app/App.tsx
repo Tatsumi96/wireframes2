@@ -12,9 +12,13 @@ import PropertyPage from './pages/PropertyPage';
 import { BookingStep1, BookingStep2, BookingStep3 } from './pages/BookingPages';
 import { ContactPage, AboutPage, LegalPage } from './pages/InfoPages';
 import { LoginPage, RegisterPage } from './pages/AuthPages';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 // Client portal
 import { ClientDashboard, ClientBooking, ClientPayments, ClientSettings, ClientFavorites } from './pages/ClientPages';
+
+// Admin portal
+import { AdminDashboard, AdminBookings, AdminProperties, AdminUsers, AdminMessages } from './pages/AdminPages';
 
 // ─── Layouts ─────────────────────────────────────────────────────────────────
 
@@ -30,12 +34,9 @@ function SiteLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PortalLayout({ children }: { children: React.ReactNode }) {
+function PortalLayout({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <>
-      <main style={{ paddingBottom: 'calc(var(--mobile-nav-height) + env(safe-area-inset-bottom, 0px))' }}>{children}</main>
-      <MobileBottomNav />
-    </>
+    <main className={`portal-layout-container ${className}`}>{children}</main>
   );
 }
 
@@ -44,6 +45,7 @@ function PortalLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const location = useLocation();
   const isPortal = location.pathname.startsWith('/client') || location.pathname.startsWith('/owner') || location.pathname.startsWith('/admin');
+  const isAdmin = location.pathname.startsWith('/admin');
   const isAuth = location.pathname === '/login' || location.pathname === '/register';
 
   return (
@@ -53,19 +55,27 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       ) : isPortal ? (
         <>
-          <Header />
-          <PortalLayout>
+          {!isAdmin && <Header />}
+          <PortalLayout className={isAdmin ? 'admin-portal' : ''}>
             <Routes>
               <Route path="/client" element={<ClientDashboard />} />
               <Route path="/client/booking" element={<ClientBooking />} />
               <Route path="/client/payments" element={<ClientPayments />} />
               <Route path="/client/favorites" element={<ClientFavorites />} />
           <Route path="/client/settings" element={<ClientSettings />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/bookings" element={<AdminBookings />} />
+              <Route path="/admin/properties" element={<AdminProperties />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/messages" element={<AdminMessages />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </PortalLayout>
+          {!isAdmin && <MobileBottomNav />}
         </>
       ) : (
         <SiteLayout>
@@ -79,7 +89,7 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/legal" element={<LegalPage />} />
-            <Route path="*" element={<HomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </SiteLayout>
       )}
